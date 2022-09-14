@@ -7,6 +7,7 @@ export interface User {
   title: string;
   organization: string;
 }
+
 interface SearchPanelProps {
   users: User[],
   param: {
@@ -15,6 +16,7 @@ interface SearchPanelProps {
   },
   setParam: (param: SearchPanelProps['param']) => void
 }
+
 export const SearchPanel: React.FC<SearchPanelProps> = ({ users, param, setParam }) => {
   return (
     <form>
