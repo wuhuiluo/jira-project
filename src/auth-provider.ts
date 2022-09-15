@@ -11,7 +11,7 @@ export const handleUserResponse = (user: User) => {
 };
 
 export const login = (loginInfo: { username: string; password: string }) => {
-  fetch(`${apiUrl}/login`, {
+  return fetch(`${apiUrl}/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -20,22 +20,29 @@ export const login = (loginInfo: { username: string; password: string }) => {
   }).then(async (res) => {
     if (res.ok) {
       return handleUserResponse(await res.json());
+    } else {
+      return Promise.reject(loginInfo);
     }
   });
 };
 
-export const register = (registerInfo: { username: string; password: string }) => {
-    fetch(`${apiUrl}/register`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(registerInfo),
-    }).then(async (res) => {
-      if (res.ok) {
-        handleUserResponse(await res.json());
-      }
-    })
-}
+export const register = (registerInfo: {
+  username: string;
+  password: string;
+}) => {
+  return fetch(`${apiUrl}/register`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(registerInfo),
+  }).then(async (res) => {
+    if (res.ok) {
+      return handleUserResponse(await res.json());
+    } else {
+      return Promise.reject(registerInfo);
+    }
+  });
+};
 
-export const logout = () => window.localStorage.removeItem(localStorageKey)
+export const logout = async () => window.localStorage.removeItem(await localStorageKey);
