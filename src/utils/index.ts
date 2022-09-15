@@ -34,7 +34,7 @@ export const useDebounce = <T>(value: T, delay?: number) => {
   return debounceValue;
 };
 
-const useArray = <T>(initialArray: T[]) => {
+export const useArray = <T>(initialArray: T[]) => {
   const [value,setValue] = useState(initialArray)
   return {
     value,
