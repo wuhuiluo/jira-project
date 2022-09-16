@@ -1,11 +1,14 @@
 import React from "react";
-// import { ObjectListScreen } from './components/screen/panal-list/index'
-import { LoginScreen } from '../src/screen/login/index'
+import { Authenticated } from 'screen/authenticatedapp/index'
+import { UnAuthenticatedApp } from 'screen/unauthenticated-app/index'
+import { useAuth } from 'context/auth-context'
 function App() {
+  const { user } = useAuth()
   return (
     <div className="App">
-      {/* <ObjectListScreen></ObjectListScreen> */}
-      <LoginScreen></LoginScreen>
+      {
+        user ? <Authenticated /> : <UnAuthenticatedApp />
+      }
     </div>
   );
 }

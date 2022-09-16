@@ -1,22 +1,10 @@
 import React, { FormEvent } from 'react'
-
-const apiUrl = process.env.REACT_APP_API_URL;
+import { useAuth } from 'context/auth-context';
 
 export const LoginScreen = () => {
-    const login = (param: { username: string, password: string }) => {
-        console.log(JSON.stringify(param))
-        fetch(`${apiUrl}/register`, {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(param)
-        }).then(async res => {
-            if (res.ok) {
-                
-            }
-        })
-    }
+    const { user,login } = useAuth()
+    console.log('user',user)
+    console.log('login',login)
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         // 阻止页面重新刷新
         e.preventDefault()
@@ -33,6 +21,6 @@ export const LoginScreen = () => {
             <label htmlFor="password">密码</label>
             <input type="password" id={'password'} />
         </div>
-        <button type={'submit'}>注册</button>
+        <button type={'submit'}>登录</button>
     </form>
 }
