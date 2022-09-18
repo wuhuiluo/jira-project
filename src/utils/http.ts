@@ -1,28 +1,29 @@
 import qs from "qs";
 import * as auth from "auth-provider";
+import { useAuth } from "context/auth-context";
 const apiUrl = process.env.REACT_APP_API_URL;
 
 interface Config extends RequestInit {
   data?: object;
-  token: string;
+  token?: string;
 }
 
 export const http = async (
   endPoint: string,
-  { data, token, ...customConfig }: Config
+  { data, token, ...customConfig }: Config = {}
 ) => {
   const config = {
     method: "GET",
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: token ? `Bearer ${token}` : '',
       "Content-Type": data ? "application/json" : "",
     },
     ...customConfig,
   };
-  if (config.method.toUpperCase() === "GET") {
+  if (config.method.toLocaleLowerCase() === "get") {
     endPoint += `?${qs.stringify(data)}`;
   } else {
-    config.body = JSON.stringify(data);
+    config.body = JSON.stringify(data || {});
   }
   return window.fetch(`${apiUrl}/${endPoint}`, config).then(async (res) => {
     if (res.status === 401) {
@@ -37,4 +38,10 @@ export const http = async (
       return Promise.reject(resData);
     }
   });
+};
+
+export const useHttp = () => {
+  const { user } = useAuth();
+  return (...[endPoint, config]: Parameters<typeof http>) =>
+    http(endPoint, { ...config, token: user?.token });
 };

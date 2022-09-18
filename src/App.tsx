@@ -2,6 +2,7 @@ import React from "react";
 import { Authenticated } from 'screen/authenticatedapp/index'
 import { UnAuthenticatedApp } from 'screen/unauthenticated-app/index'
 import { useAuth } from 'context/auth-context'
+import './App.css'
 function App() {
   const { user } = useAuth()
   return (

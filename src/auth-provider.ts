@@ -5,7 +5,8 @@ const localStorageKey = "__auth_provider_token__";
 
 export const getToken = () => window.localStorage.getItem(localStorageKey);
 
-export const handleUserResponse = (user: User) => {
+
+export const handleUserResponse = ({ user }: { user: User }) => {
   window.localStorage.setItem(localStorageKey, user.token || "");
   return user;
 };
@@ -45,4 +46,5 @@ export const register = (registerInfo: {
   });
 };
 
-export const logout = async () => window.localStorage.removeItem(await localStorageKey);
+export const logout = async () =>
+  window.localStorage.removeItem(await localStorageKey);
