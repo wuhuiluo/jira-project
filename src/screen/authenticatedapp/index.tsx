@@ -1,7 +1,7 @@
 import React from 'react'
-import { Dropdown, Menu } from 'antd'
+import { Dropdown, Menu, Button } from 'antd'
 import { useAuth } from 'context/auth-context'
-import { ObjectListScreen } from 'components/screen/panal-list/index'
+import { ProjectList } from 'components/screen/panal-list/index'
 import { Row } from '../../components/lib'
 import { ReactComponent as SoftWareLogo } from '../../assets/software-logo.svg'
 import styled from '@emotion/styled'
@@ -18,16 +18,16 @@ export const Authenticated = () => {
         <Dropdown overlay={
           <Menu>
             <Menu.Item key={'logout'}>
-              <a href="" onClick={logout}>登出</a>
+              <Button type={'link'} onClick={logout}>登出</Button>
             </Menu.Item>
           </Menu>
         }>
-          <a onClick={(e) => e.preventDefault()} href="">Hi {user?.name}</a>
+          <Button type={'link'} onClick={(e) => e.preventDefault()} href="">Hi {user?.name}</Button>
         </Dropdown>
       </HeaderRight>
     </Header>
     <Main>
-      <ObjectListScreen />
+      <ProjectList />
     </Main>
   </Container>
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import { User } from './search-panel'
-import { Table } from 'antd'
+import { Table, TableProps } from 'antd'
 import dayjs from "dayjs";
 interface Project {
   id: string;
@@ -11,14 +11,13 @@ interface Project {
   created: string;
 }
 
-interface ListProps {
-  list: Project[];
+interface ListProps extends TableProps<Project> {
   users: User[]
 }
 
-export const List: React.FC<ListProps> = ({ users, list }) => {
+export const List: React.FC<ListProps> = ({ users, ...props }) => {
   return (
-    <Table pagination={false} columns={[{
+    <Table rowKey={project => project.id} pagination={false} columns={[{
       title: '名称',
       width: 150,
       dataIndex: 'name',
@@ -41,6 +40,6 @@ export const List: React.FC<ListProps> = ({ users, list }) => {
           {project.created ? dayjs(project.created).format('YYYY-MM-DD') : '无'}
         </span>
       }
-    }]} dataSource={list} />
+    }]} {...props} />
   );
 };

@@ -5,7 +5,7 @@ import { useMount, cleanObject, useDebounce } from "../../../utils/index";
 import { useHttp } from "utils/http";
 import styled from "@emotion/styled";
 
-export const ObjectListScreen = () => {
+export const ProjectList = () => {
   const [users, setUsers] = useState([]);
   const [param, setParam] = useState({ name: "", personId: "" });
   const [list, setList] = useState([]);
@@ -14,11 +14,13 @@ export const ObjectListScreen = () => {
 
   useMount(() => {
     client("users").then(setUsers);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   })
 
   useEffect(() => {
     // @ts-ignore
     client('projects', { data: cleanObject(param) }).then(res => setList(res))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedParam])
 
   return (
@@ -29,7 +31,7 @@ export const ObjectListScreen = () => {
         param={param}
         setParam={setParam}
       ></SearchPanel>
-      <List users={users} list={list}></List>
+      <List users={users} dataSource={list}></List>
     </Container>
   );
 };

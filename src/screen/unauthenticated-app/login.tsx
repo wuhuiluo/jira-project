@@ -1,11 +1,10 @@
-import React, { FormEvent } from 'react'
+import React from 'react'
 import { useAuth } from 'context/auth-context';
 import { Form, Input, Button } from 'antd';
 import styled from '@emotion/styled'
 export const LoginScreen = () => {
     const { login } = useAuth()
     const handleSubmit = async (values: { username: string, password: string }) => {
-        console.log(values)
         await login(values)
     }
     return <Form onFinish={handleSubmit}>

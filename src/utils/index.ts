@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
-const isFalsy = (val: unknown) => (val === 0 ? false : !val);
-
+const isVoid = (val: unknown) =>
+  val === null || val === undefined || val === "";
 export const cleanObject: object = (obj?: { [key: string]: unknown }) => {
   if (!obj) {
     return {};
@@ -9,8 +9,7 @@ export const cleanObject: object = (obj?: { [key: string]: unknown }) => {
   const copyObj = { ...obj };
   Object.keys(copyObj).forEach((key) => {
     const value = copyObj[key];
-    console.log(isFalsy(value))
-    if (isFalsy(value)) {
+    if (isVoid(value)) {
       delete copyObj[key];
     }
   });
@@ -20,6 +19,7 @@ export const cleanObject: object = (obj?: { [key: string]: unknown }) => {
 export const useMount = (callback: () => void) => {
   useEffect(() => {
     callback();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 };
 
@@ -35,16 +35,16 @@ export const useDebounce = <T>(value: T, delay?: number) => {
 };
 
 export const useArray = <T>(initialArray: T[]) => {
-  const [value,setValue] = useState(initialArray)
+  const [value, setValue] = useState(initialArray);
   return {
     value,
     setValue,
-    add: (item: T) => setValue([...value,item]),
+    add: (item: T) => setValue([...value, item]),
     clear: () => setValue([]),
     remove: (currentIndex: number) => {
-      const newArray = [...value]
-      newArray.splice(currentIndex,1)
-      setValue(newArray)
-    }
-  }
-}
+      const newArray = [...value];
+      newArray.splice(currentIndex, 1);
+      setValue(newArray);
+    },
+  };
+};
