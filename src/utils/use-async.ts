@@ -7,13 +7,21 @@ interface State<D> {
   status: StatusType;
 }
 
+interface defaultConfig {
+  throwError: boolean;
+}
+
 const defaultState: State<null> = {
   data: null,
   error: null,
   status: "idle",
 };
 
-export const useAsync = <D>(initialState?: State<D>) => {
+export const useAsync = <D>(
+  initialState?: State<D>,
+  initialConfig?: defaultConfig
+) => {
+  const throwError = { ...initialConfig, initialState };
   const [state, setState] = useState<State<D>>({
     ...defaultState,
     ...initialState,
@@ -46,22 +54,23 @@ export const useAsync = <D>(initialState?: State<D>) => {
     return promise
       .then((data) => {
         setData(data);
-        return data;
+        if (throwError.throwError) return data;
       })
       .catch((error) => {
         setError(error);
+        if (throwError.throwError) return Promise.reject(error);
         return error;
       });
   };
 
   return {
-    isIdle: state.status === 'idle',
-    isLoading: state.status === 'loading',
-    isError: state.status === 'error',
-    isSuccess: state.status === 'success',
+    isIdle: state.status === "idle",
+    isLoading: state.status === "loading",
+    isError: state.status === "error",
+    isSuccess: state.status === "success",
     setData,
     setError,
     run,
-    ...state
-  }
+    ...state,
+  };
 };

@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { RegisterScreen } from './register';
 import { LoginScreen } from './login';
-import { Card, Button, Divider } from 'antd'
+import { Card, Button, Divider, Typography } from 'antd'
 import styled from '@emotion/styled'
 import logo from 'assets/logo.svg'
 import left from 'assets/left.svg'
 import right from 'assets/right.svg'
 export const UnAuthenticatedApp = () => {
     const [register, setRegister] = useState(false)
+    const [error, setError] = useState<null | Error>(null)
     return <Background>
         <Container>
             <Header />
@@ -18,7 +19,10 @@ export const UnAuthenticatedApp = () => {
                     }
                 </Title>
                 {
-                    register ? <RegisterScreen /> : <LoginScreen />
+                    error ? <Typography.Text type={'danger'}>{error.message}</Typography.Text> : null
+                }
+                {
+                    register ? <RegisterScreen setError={setError} /> : <LoginScreen setError={setError} />
                 }
                 <Divider />
                 <Button type={'link'} onClick={() => setRegister(!register)}>
