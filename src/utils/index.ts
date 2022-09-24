@@ -48,3 +48,5 @@ export const useArray = <T>(initialArray: T[]) => {
     },
   };
 };
+
+export const resetRoute = () => window.location.href = window.location.origin
